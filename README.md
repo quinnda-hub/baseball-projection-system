@@ -1,2 +1,2 @@
 # baseball-projection-system
-Penalized Regression for Projecting Baseball Batters
+Penalized Regression for Projecting Baseball Players
