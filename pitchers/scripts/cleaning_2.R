@@ -1,8 +1,4 @@
 library(data.table)
-
-pitchers <- read.csv("pitchers.csv")
-setDT(pitchers)
-
 # this function transforms the data into a form fit for linear regression
 reg_df <- function(df, vars, yrs, denom) {
   df_1 <- df
@@ -164,3 +160,13 @@ reg_df <- function(df, vars, yrs, denom) {
   
   return (df_2)
 }
+
+pitchers_5_yrs <- read.csv("pitchers-5-yrs.csv")
+pitchers_4_yrs <- read.csv("pitchers-4-yrs.csv")
+
+# create regression table for pitchers with 5 & 4 consecutive years
+vars <- c("w", "l", "gs", "ip", "babip", "h",
+          "r", "er", "hr", "bb", "so", "fip", "war")
+
+reg_5_yrs <- reg_df(pitchers_5_yrs, vars = vars, 5, "ip")
+reg_4_yrs <- reg_df(pitchers_4_yrs, vars = vars, 4, "ip")
