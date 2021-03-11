@@ -19,8 +19,8 @@ master <- master[gs >= 7]
 
 # function to subset dt based on how many consecutive years in mlb
 # is wanted
-con_yrs <- function(df, num_years) {
-  min <- num_years - 5
+con_yrs <- function(df, num_years, multiple) {
+  min <- num_years - multiple
   df[year_in_mlb <= num_years][,
      sum_yrs := sum(year_in_mlb),
       by = player_id][sum_yrs == sum(seq(num_years))][
@@ -30,9 +30,17 @@ con_yrs <- function(df, num_years) {
 
 # get our list of players to regress later on
 years <- c(5, 10, 15, 20)
-pitchers <- lapply(years, con_yrs, dt = master)
+pitchers_1 <- lapply(years, con_yrs, df = master, multiple = 5)
 
-pitchers <- rbindlist(pitchers)
-setorder(pitchers, name) # order by name recommended to simplify future steps
+pitchers_1 <- rbindlist(pitchers_1)
+setorder(pitchers_1, name) # order by name recommended to simplify future steps
 
-# write.csv(pitchers, "pitchers.csv")
+# write.csv(pitchers_1, "pitchers-5-yrs.csv")
+
+years <- c(4, 8, 12, 16)
+pitchers_2 <- lapply(years, con_yrs, df = master, multiple = 4)
+
+pitchers_2 <- rbindlist(pitchers_2)
+setorder(pitchers_2, name)
+
+# write.csv(pitchers_2, "pitchers-4-yrs.csv)
